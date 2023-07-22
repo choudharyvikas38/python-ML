@@ -75,4 +75,47 @@
         All done! ✨ 🍰 ✨    
 
 # Once everything compile locally and looks good, push your code in your repo
-    
+    1. git status
+    2. git add *
+    3. git commit -m "Python ML intial code for continus integration"
+    4. git push 
+
+# Cool now time to setup GitHub Actions for autobuild and deployemnt 
+    1. Go to GitHub repo you want to setup
+    2. click on Actions then you can select pre defined templates for your workflow or you can setup it manuall.
+    3. To setup yourself, click on Setup workflow yourself
+    3. copy paste below code in yaml file, or can add/modify commands as per your need. if you can use default file name as main or can change as per your need. In my case i changed it to deployment.yaml
+
+        name: Test Python Auto Build
+        on: [push]
+        jobs:
+        build:
+            runs-on: ubuntu-latest
+            strategy:
+            matrix:
+                python-version: [3.10.8]
+            steps:
+            - uses: actions/checkout@v2
+            - name: Set up Python ${{ matrix.python-version }}
+                uses: actions/setup-python@v2
+                with:
+                python-version: ${{ matrix.python-version }}
+            - name: Install dependencies
+                run: |
+                make install
+            - name: Lint with pylint
+                run: |
+                make lint
+            - name: Test with pytest
+                run: |
+                make test
+            - name: Format code with Python Black
+                run: |
+                make format
+
+
+# on every push in repo , it will insatlled all required lib, will run lint, then will run test cases and formated the code and will deploy....
+    ![Alt text](image-1.png)
+
+    ![Alt text](image-2.png)
+Thanks for going throw this Article..
