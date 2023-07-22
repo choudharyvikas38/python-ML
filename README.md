@@ -1,4 +1,4 @@
-# python-ML
+# python-ML (Coding to sonar lint, test cases execution, code formating to end to end deployment using CI/CD pipeline for Python ML Architecture) - will share article soon on ML Designing Data Prepration and Processing System 
     How to write test cases for your python app
     How to setup lint for python app
     How to format all code in python app
