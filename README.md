@@ -1,67 +1,112 @@
-# python-ML (Coding to sonar lint, test cases execution, code formating to end to end deployment using CI/CD pipeline for Python ML Architecture) - will share article soon on ML Designing Data Prepration and Processing System 
-    How to write test cases for your python app
-    How to setup lint for python app
-    How to format all code in python app
-    How to externalize lib and install in one go
-    How to check coverage in python app
-    How to use codespaces => Login in Github, create your repo and click on Code and select Codespace which will proivde virtual VS code.
-# Setup Terminal
-1. which virtualenv
-    Ex. @choudharyvikas38 ➜ /workspaces/python-ML (main) $ which virtualenv
-        /usr/local/py-utils/bin/virtualenv
-2. virtualenv ~/.venv        
-3. source ~/.venv/bin/activate
-4. which python
-5. vim ~/.bashc
+# How to setup Python ML Architecture CI/CD Pipeline
+
+Virtual Env setup to Coding, Coding to code quality, code quality to test cases execution and code formatting, build to end to end deployment using CI/CD pipeline) - will share article soon on ML Designing Data Preparation and Processing System
+
+### Author : Vikas Choudhary [Linked-In Profile](linkedin.com/in/vikas-choudhary-72866b49)
+
+## Agenda
+
+1. How to write test cases for your python app
+2. How to setup lint for code quality check in python app
+3. How to format all code in python app
+4. How to externalise lib and install them in one go
+5. How to check code coverage in python app
+6. How to use GitHub code-spaces for Virtual Env
+7. How to set CI/CD workflow for continuous delivery
 
 
-# Setup Project and create Makefile & dependencies file
-    Command : touch Makefile.  (put all commnad like install, test, lint , format, etc)
-    Command : touch dependencies.txt ( To keep all dependecy required for project and install them in one go, you can keep with any name but same name need to pass in Makefile install command)
+## Setup Virtual Codespace
+1. Login in Github Account
+2. create your repo and click on Code button
+3. select Codespace which will provide virtual VS code.
 
-    # Makefile content
-                install:
-                    pip install --upgrade pip &&\
-                        pip install -r dependencies.txt
+## Setup Terminal on Virtual VS Code
+```bash
+# Check virtual env
+which virtualenv
+#1
+virtualenv ~/.venv
+#2
+source ~/.venv/bin/activate
+#3, will return installed python
+which python
+```
 
-                test:
-                    python -m pytest -vvv --cov=src test
+## Setup Project with Base Configuration
+1. create Makefile and define all commands there like install, test, lint, format, all etc. Copy paste below content in Makefile
+```bash
+#Create Makefile
+touch Makefile
+```
+```python
+#Copy below content
+install:
+	pip install --upgrade pip &&\
+		pip install -r dependencies.txt
 
-                format:
-                    black *.py
+test:
+	python -m pytest -v tests
 
-                lint:
-                    pylint --disable=R,C *.py
+format:
+	black src/*.py
 
-                all: install lint test format
+lint:
+	pylint --disable=R,C src/HelloWorld.py
 
-    # Dependecies for this code , you can add as per your requirements
-            pytest
-            pytest-cov
-            pylint
-            black
-            ipython           
+all: install lint test format
+```
+2. Create file for dependencies or lib, you can keep any name but same name need to be used in Makefile
+```bash
+#Create dependencies.txt file
+dependencies.txt
+```
+```python
+## Dependecies for this code , you can add as per your requirements
+pytest==7.4.0
+pytest-cov==4.1.0
+pylint==2.17.4
+black==23.7.0
+ipython==8.14.0
+```
+3. Create SRC folder and test folder for to keep source code & test cases respectively
+```bash
+#Create src folder
+mkdir src
+#Create tests folder
+mkdir tests
+```
+4. Create one source file HelloWorld.py and one test file test_HelloWorld.py
+```bash
+#Create First Source file i.e. HelloWorld.py
+touch src/HelloWorld.py
 
+#Create First Test file i.e. test_HelloTest.py
+touch tests/test_HelloTest.py
+```
+5. To check/confirm installed lib version (if you didn't know what version you need to use, define lib name only in dependencies.txt and run below command to check what version installed for your libs. define same in dependencies.txt file
+```bash
+#Hit enter to continue 
+pip freeze | less
+```
+## Finally Run Your Code
+```bash
+#if you only want to install libs
+make install
+#if you only want to check code quality
+make lint
+#if you only want to verify test and code coverage
+make test
+#if you only want to format all code files
+make format
+#if you want to do all above things in one go but in sequence
+make all
+```
 
+```Python
+#If everything looks good and your code compiled successfully 
+#and passed all test cases. Output looks like below
 
-# Create SRC folder and test folder for to keep source code & test cases respectively
-    Command : mkdir src
-    Command: mkdir tests
-    Create First Source file i.e. HelloWorld.py
-    Command : touch src/HelloWorld.py
-
-    Create First Test file i.e. test_HelloTest.py
-    Command : touch tests/test_HelloTest.py
-    Command: make all (to run install, test case ,lint and fomrat )
-
-
-# to check installed lib version
-    better define version with dependecny, you can find verson using below commnad and define version for all required dependecny or lib 
-    pip freeze | less
-
-# Finally run commnad 
-    command : make all
-    Output:
+Output:
         --------------------------------------------------------------------
         Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
@@ -77,21 +122,27 @@
 
         =================================================== 1 passed in 0.01s ===================================================
         black src/*.py
-        All done! ✨ 🍰 ✨    
+        All done! ✨ 🍰 ✨   
+```
 
-# Once everything compile locally and looks good, push your code in your repo
-    1. git status
-    2. git add *
-    3. git commit -m "Python ML intial code for continus integration"
-    4. git push 
-
-# Cool now time to setup GitHub Actions for autobuild and deployemnt 
-    1. Go to GitHub repo you want to setup
-    2. click on Actions then you can select pre defined templates for your workflow or you can setup it manuall.
-    3. To setup yourself, click on Setup workflow yourself
-    3. copy paste below code in yaml file, or can add/modify commands as per your need. if you can use default file name as main or can change as per your need. In my case i changed it to deployment.yaml
-
-        name: Test Python Auto Build
+## Push Changes in Repo
+```bash
+#Check modified or added file status
+git status
+#To add all file in one go
+git add *
+#To Commit  
+git commit -m "Python ML initial code for continues integration"
+#To Push in Origin
+git push 
+```
+## How to setup GitHub Actions for auto-build and deployment
+1. Go to GitHub repo you want to setup
+2. Click on Actions then you can select pre defined templates for your workflow or you can setup it manually.
+3. To setup yourself, click on Setup workflow yourself
+4. Copy paste below code in yaml file, or can add/modify commands as per your need. if you can use default file name as main or can change as per your need. In my case i changed it to deployment.yaml
+```python
+name: Test Python Auto Build
         on: [push]
         jobs:
         build:
@@ -117,10 +168,13 @@
             - name: Format code with Python Black
                 run: |
                 make format
+```
+5. On every push in repo , it will installed all required lib, will run lint, then will run test cases and formatted the code and will deploy....
+## Contributing
 
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
 
-# on every push in repo , it will insatlled all required lib, will run lint, then will run test cases and formated the code and will deploy....
-    ![Alt text](image-1.png)
+Please make sure to update tests as appropriate.
 
-    ![Alt text](image-2.png)
-Thanks for going through this Article..
+### Thank you
