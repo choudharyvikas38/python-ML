@@ -118,4 +118,4 @@
     ![Alt text](image-1.png)
 
     ![Alt text](image-2.png)
-Thanks for going throw this Article..
+Thanks for going through this Article..
