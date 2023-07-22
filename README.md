@@ -1,5 +1,10 @@
 # python-ML
-
+    How to write test cases for your python app
+    How to setup lint for python app
+    How to format all code in python app
+    How to externalize lib and install in one go
+    How to check coverage in python app
+    How to use codespaces => Login in Github, create your repo and click on Code and select Codespace which will proivde virtual VS code.
 # Setup Terminal
 1. which virtualenv
     Ex. @choudharyvikas38 ➜ /workspaces/python-ML (main) $ which virtualenv
